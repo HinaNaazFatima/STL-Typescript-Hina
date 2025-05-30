@@ -11,7 +11,7 @@ export default defineConfig({
     screenshot: 'on',
     video: 'retain-on-failure',
     trace: 'on',
-
+    viewport: { width: 1280, height: 720 } 
   },
   reporter: [['html', { outputFolder: 'reports' }]],
   timeout: 90000,

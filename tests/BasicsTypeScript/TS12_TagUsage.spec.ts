@@ -24,8 +24,8 @@ test.describe('Login Tests', () => {
 // Use the command line to run tests with specific tags         
 // npx playwright test --grep "@smoke"
 // npx playwright test --grep "@smoke @negative"
-// run muliple tags 
-// npx playwright test --grep "@smoke @positive @negative"
-// exclude tag
+// run muliple tags--note: run in git bash as it wont work in powershell
+// npx playwright test --grep "@smoke|@positive"
+// exclude tag--note: run in git bash as it wont work in poweshell
 // npx playwright test --grep @smoke --grep-invert @negative
 
