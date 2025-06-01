@@ -1,4 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
+
+// Load the correct .env file based on ENV
+dotenv.config({ path: `.env.${process.env.ENV || 'dev'}` });
+
+console.log(`Environment: ${process.env.ENV || 'dev'}`);
+console.log(`BASE_URL: ${process.env.BASE_URL}`);
+console.log(`USERNAME: ${process.env.USERNAME1}`);
+console.log(`PASSWORD: ${process.env.PASSWORD}`);
 
 
 export default defineConfig({
@@ -13,6 +22,11 @@ export default defineConfig({
     trace: 'on',
     viewport: { width: 1280, height: 720 } 
   },
-  reporter: [['html', { outputFolder: 'reports' }]],
+  // reporter: [['html', { outputFolder: 'reports' }]],
+  reporter: [
+    ['list'],  // Default CLI output
+    ['allure-playwright'],  // Enable Allure reporting
+  ],
+
   timeout: 90000,
   });
