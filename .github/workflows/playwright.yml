@@ -1,30 +1,37 @@
-name: Playwright Smoke Tests
+name: Playwright Tagged Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      TEST_TAG: '@smoke'  # 👈 Change this tag as needed
+
     steps:
-      - name: Checkout Repository
+      - name: 🧾 Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '18'
 
-      - name: Install Dependencies
+      - name: 📦 Install Dependencies
         run: npm ci
 
-      - name: Install Playwright Browsers
+      - name: 🌍 Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Smoke Tests Only
-        run: npx playwright test --grep "@smoke"
+      - name: 🧪 Run Playwright Tagged Tests (headless)
+        run: npx playwright test --grep "$TEST_TAG"
 
-      - name: Upload Report
+      - name: 📤 Upload Playwright HTML Report
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
