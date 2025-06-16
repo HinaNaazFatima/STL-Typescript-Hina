@@ -1,39 +1,51 @@
 name: Playwright Smoke Tests
-on: [push, pull_request] # Runs on push and pull request events.
+on: [push, pull_request] # Runs the workflow on push and pull requests.
 
 jobs:
   test:
-    runs-on: ubuntu-latest # Uses an Ubuntu virtual machine.
+    runs-on: ubuntu-latest # Uses the latest Ubuntu-based virtual machine.
     
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3 # Retrieves the latest repository code.
+        uses: actions/checkout@v3 # Retrieves the latest code from the repository.
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18 # Installs Node.js 18.
+          node-version: 18 # Installs Node.js version 18.
 
       - name: Install Dependencies
-        run: npm ci # Installs dependencies from package-lock.json.
+        run: npm ci # Installs project dependencies.
 
       - name: Install Playwright Browsers
         run: npx playwright install # Installs the necessary browsers for Playwright tests.
 
       - name: Debug Environment
-        run: env # Prints environment variables for troubleshooting.
+        run: env # Prints environment variables for debugging.
 
       - name: Run Smoke Tests with X Server
-        run: xvfb-run --auto-servernum npx playwright test -g "@smoke" 
-        # Runs smoke tests tagged with "@smoke" using Playwright.
-        # Uses xvfb-run to provide an X server for graphical applications.
-        # Specifies Allure as the test reporter.
+        run: xvfb-run --auto-servernum npx playwright test -g "@smoke" --reporter=allure-playwright
+        # Runs smoke tests tagged with "@smoke".
+        # Uses xvfb-run to provide an X server environment for headless execution.
+        # Generates reports using the Allure Playwright reporter.
+
+      - name: Install Allure CLI
+        run: |
+          wget -qO- https://github.com/allure-framework/allure2/releases/latest/download/allure-2.23.0.tgz | tar -xz
+          echo "$(pwd)/allure-2.23.0/bin" >> $GITHUB_PATH
+        # Downloads and installs Allure command-line tools.
 
       - name: Generate Allure Report
-        run: allure generate allure-results --clean -o allure-report
+        run: ./allure-2.23.0/bin/allure generate allure-results --clean -o allure-report/
+        # Converts raw Allure results into a human-readable report.
+
+      - name: Check Allure Report Files
+        run: ls -la allure-report/
+        # Verifies that the Allure report directory contains generated output.
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: allure-report/
+        # Uploads the generated Allure report as an artifact for later viewing.
