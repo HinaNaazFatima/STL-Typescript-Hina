@@ -24,22 +24,16 @@ jobs:
         run: env # Prints environment variables for troubleshooting.
 
       - name: Run Smoke Tests with X Server
-        run: xvfb-run --auto-servernum npx playwright test -g "@smoke" --reporter=allure-playwright
+        run: xvfb-run --auto-servernum npx playwright test -g "@smoke" 
         # Runs smoke tests tagged with "@smoke" using Playwright.
         # Uses xvfb-run to provide an X server for graphical applications.
         # Specifies Allure as the test reporter.
 
-      - name: Check Allure Results Directory
-        run: ls -la allure-results/
-        # Verifies whether the Allure results directory contains test output.
-
       - name: Generate Allure Report
-        run: npm run allure:generate
-        # Converts raw Allure results into a human-readable report.
+        run: npx allure generate allure-results --clean -o allure-report
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: allure-report/
-        # Uploads the generated Allure report as an artifact.
