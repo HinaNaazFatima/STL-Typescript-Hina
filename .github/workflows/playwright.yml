@@ -1,32 +1,45 @@
 name: Playwright Smoke Tests
-on: [push, pull_request]
+on: [push, pull_request] # Runs on push and pull request events.
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Uses an Ubuntu virtual machine.
+    
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3 # Retrieves the latest repository code.
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18 # Installs Node.js 18.
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm ci # Installs dependencies from package-lock.json.
 
       - name: Install Playwright Browsers
-        run: npx playwright install
+        run: npx playwright install # Installs the necessary browsers for Playwright tests.
 
       - name: Debug Environment
-        run: env
+        run: env # Prints environment variables for troubleshooting.
 
       - name: Run Smoke Tests with X Server
         run: xvfb-run --auto-servernum npx playwright test -g "@smoke" --reporter=allure-playwright
+        # Runs smoke tests tagged with "@smoke" using Playwright.
+        # Uses xvfb-run to provide an X server for graphical applications.
+        # Specifies Allure as the test reporter.
+
+      - name: Check Allure Results Directory
+        run: ls -la allure-results/
+        # Verifies whether the Allure results directory contains test output.
+
+      - name: Generate Allure Report
+        run: npm run allure:generate
+        # Converts raw Allure results into a human-readable report.
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: allure-report/
+        # Uploads the generated Allure report as an artifact.
