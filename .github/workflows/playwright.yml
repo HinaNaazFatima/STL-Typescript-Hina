@@ -1,39 +1,28 @@
-name: Playwright Tests by Tag
-
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+name: Playwright Tests
+on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    env:
-      TEST_TAG: '@smoke'  # 🔁 Change this to any tag like '@regression'
-      # You can also pass env variable to Playwright config if needed
-
     steps:
-      - name: 🧾 Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: ⚙️ Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 18
 
-      - name: 📦 Install Dependencies
+      - name: Install Dependencies
         run: npm ci
 
-      - name: 🌐 Install Playwright Browsers
+      - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: 🧪 Run Tagged Tests (headless mode)
-        run: npx playwright test --grep "${{ env.TEST_TAG }}" --headless
+      - name: Run Tests
+        run: npx playwright test
 
-      - name: 📤 Upload Playwright HTML Report
-        uses: actions/upload-artifact@v4
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v3
         with:
           name: playwright-report
           path: playwright-report/
