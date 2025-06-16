@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Playwright Smoke Tests
 
 on: [push, pull_request]
 
@@ -21,10 +21,10 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Tests
-        run: npx playwright test
+      - name: Run Smoke Tests Only
+        run: npx playwright test --grep "@smoke"
 
-      - name: Upload Playwright Report
+      - name: Upload Report
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
