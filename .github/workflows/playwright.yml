@@ -12,11 +12,11 @@ jobs:
 
     env:
       TEST_TAG: '@smoke'  # 🔁 Change this to any tag like '@regression'
+      # You can also pass env variable to Playwright config if needed
 
     steps:
       - name: 🧾 Checkout Repository
         uses: actions/checkout@v3
-
 
       - name: ⚙️ Set up Node.js
         uses: actions/setup-node@v3
@@ -30,7 +30,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: 🧪 Run Tagged Tests (headless mode)
-        run: npx playwright test --grep "$TEST_TAG"
+        run: npx playwright test --grep "$TEST_TAG" --headed=false
 
       - name: 📤 Upload Playwright HTML Report
         uses: actions/upload-artifact@v4
