@@ -25,27 +25,32 @@ jobs:
 
       - name: Run Smoke Tests with X Server
         run: xvfb-run --auto-servernum npx playwright test -g "@smoke" --reporter=allure-playwright
-        # Runs smoke tests tagged with "@smoke".
-        # Uses xvfb-run to provide an X server environment for headless execution.
-        # Generates reports using the Allure Playwright reporter.
+        # Runs smoke tests tagged with "@smoke", using an X server for headless browser support.
+        # The Allure Playwright reporter generates the raw results.
 
-      - name: Install Allure CLI
+      - name: Download Allure CLI
         run: |
-          wget -qO- https://github.com/allure-framework/allure2/releases/latest/download/allure-2.23.0.tgz | tar -xz
+          wget https://github.com/allure-framework/allure2/releases/download/2.23.0/allure-2.23.0.tgz -O allure-2.23.0.tgz
+          tar -xzf allure-2.23.0.tgz
           echo "$(pwd)/allure-2.23.0/bin" >> $GITHUB_PATH
-        # Downloads and installs Allure command-line tools.
+        # Downloads Allure CLI archive and extracts it.
+        # Adds the Allure binary path to the system PATH for subsequent steps.
+
+      - name: Check Allure Installation
+        run: allure --version
+        # Confirms that Allure is installed and prints its version for verification.
 
       - name: Generate Allure Report
-        run: ./allure-2.23.0/bin/allure generate allure-results --clean -o allure-report/
-        # Converts raw Allure results into a human-readable report.
+        run: allure generate allure-results --clean -o allure-report/
+        # Processes raw Allure results from the allure-results directory into the allure-report folder.
 
       - name: Check Allure Report Files
         run: ls -la allure-report/
-        # Verifies that the Allure report directory contains generated output.
+        # Lists the contents of the generated Allure report directory for debugging.
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: allure-report/
-        # Uploads the generated Allure report as an artifact for later viewing.
+        # Uploads the generated Allure report as an artifact for further inspection.
