@@ -22,8 +22,8 @@ jobs:
       - name: Debug Environment
         run: env
 
-      - name: Run Smoke Tests with Debug Logging
-        run: npx playwright test -g "@smoke"
+      - name: Run Smoke Tests with X Server
+        run: xvfb-run --auto-servernum npx playwright test -g "@smoke"
 
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
