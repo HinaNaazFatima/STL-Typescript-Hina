@@ -24,6 +24,9 @@ jobs:
 
       - name: Run Smoke Tests with X Server
         run: xvfb-run --auto-servernum npx playwright test -g "@smoke" --reporter=html
+        
+      - name: Generate Allure Report
+        run: npm run allure:generate
 
 
       - name: Upload Playwright Report

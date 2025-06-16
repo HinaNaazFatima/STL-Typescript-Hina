@@ -22,6 +22,7 @@ export default defineConfig({
     trace: 'on',
     viewport: { width: 1280, height: 720 } 
   },
+  workers: 4, // Run tests in a single worker
   // reporter: [['html', { outputFolder: 'reports' }]],
   reporter: [
     ['list'],  // Default CLI output
