@@ -3,62 +3,74 @@ on: [push, pull_request]  # Runs on push and pull request events.
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Uses the latest Ubuntu-based virtual machine.
-
+    runs-on: ubuntu-latest  # Uses the latest Ubuntu virtual machine.
+    
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3  # Retrieves the latest code from the repository.
-
+        uses: actions/checkout@v3  # Retrieves the repository code.
+  
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18  # Installs Node.js version 18.
-
+  
       - name: Install Dependencies
         run: npm ci  # Installs project dependencies.
-
+  
       - name: Install Playwright Browsers
-        run: npx playwright install  # Installs browsers required by Playwright tests.
-
+        run: npx playwright install  # Installs browsers required for Playwright tests.
+  
       - name: Debug Environment
-        run: env  # Prints environment variables for troubleshooting.
-
+        run: env  # Outputs environment variables for troubleshooting.
+  
       - name: Run Smoke Tests with X Server
         run: xvfb-run --auto-servernum npx playwright test -g "@smoke" --reporter=allure-playwright
-        # Runs smoke tests tagged with "@smoke" using xvfb-run to simulate an X server.
-        # The Allure Playwright reporter should output raw results in the allure-results directory.
-
+        # Runs smoke tests tagged with "@smoke" using xvfb-run for headless browser support.
+        # The Allure Playwright reporter writes raw results to the allure-results directory.
+  
       - name: Check Allure Results Directory
         run: ls -la allure-results/
-        # Lists files in allure-results to verify that test results have been generated.
-
-      # Wait a few seconds to ensure all files are completely written
+        # Verifies that raw results are present.
+  
+      # Extra wait to ensure asynchronous writes finish before report generation
       - name: Wait for Allure Results to Settle
-        run: sleep 5
-
+        run: sleep 10
+  
       - name: Download Allure CLI
         run: |
           wget https://github.com/allure-framework/allure2/releases/download/2.23.0/allure-2.23.0.tgz -O allure-2.23.0.tgz
           tar -xzf allure-2.23.0.tgz
           echo "$(pwd)/allure-2.23.0/bin" >> $GITHUB_PATH
-        # Downloads the Allure CLI archive and extracts it.
-        # Updates the system PATH so that the 'allure' command is available.
-
+        # Downloads and extracts the Allure CLI and updates the PATH.
+  
       - name: Check Allure Installation
         run: allure --version
-        # Prints the Allure version to confirm installation was successful.
-
+        # Verifies that Allure is installed correctly.
+  
       - name: Generate Allure Report
         run: allure generate allure-results --clean -o allure-report/
-        # Processes the raw results from allure-results and creates a static HTML report in allure-report.
-
+        # Processes the raw results into a static HTML report in the allure-report folder.
+  
+      - name: Wait for Report Generation to Settle
+        run: sleep 10
+        # Extra wait to allow asynchronous report processing to complete.
+  
+      - name: Serve Allure Report for Verification
+        run: |
+          # Start a temporary Python HTTP server in the background
+          nohup python3 -m http.server 8000 &
+          sleep 10
+          # Attempt to fetch the report index to verify content exists
+          curl -s http://localhost:8000/index.html | head -n 20
+        # This step serves the report and shows the first few lines of index.html for debug purposes.
+  
       - name: Check Allure Report Files
         run: ls -la allure-report/
-        # Lists the static report files to debug if the report directory is populated.
-
+        # Lists generated report files for verification.
+  
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: allure-report/
-        # Uploads the generated report as an artifact.
+        # Uploads the complete Allure report as an artifact.
