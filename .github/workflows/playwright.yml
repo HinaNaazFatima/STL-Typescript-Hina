@@ -26,7 +26,7 @@ jobs:
         run: npx playwright test -g "@smoke" --debug
 
       - name: Upload Playwright Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
