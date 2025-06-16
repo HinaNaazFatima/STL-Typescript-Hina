@@ -23,7 +23,8 @@ jobs:
         run: env
 
       - name: Run Smoke Tests with X Server
-        run: xvfb-run --auto-servernum npx playwright test -g "@smoke"
+        run: xvfb-run --auto-servernum npx playwright test -g "@smoke" --reporter=html
+
 
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
