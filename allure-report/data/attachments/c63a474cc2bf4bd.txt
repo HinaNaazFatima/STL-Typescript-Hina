@@ -1,0 +1,3 @@
+Before all tests
+Navigating to Wikipedia homepage...
+Test completed

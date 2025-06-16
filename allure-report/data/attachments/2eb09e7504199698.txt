@@ -1,0 +1,3 @@
+Login successful for user: standard_user
+Login failed for user: locked_out_user - Epic sadface: Sorry, this user has been locked out.
+Login failed for user: invalid_user - Epic sadface: Username and password do not match any user in this service
