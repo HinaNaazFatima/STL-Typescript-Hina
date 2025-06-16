@@ -30,7 +30,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: 🧪 Run Tagged Tests (headless mode)
-        run: npx playwright test --grep "$TEST_TAG" --headed=false
+        run: npx playwright test --grep "$TEST_TAG" --headless
 
       - name: 📤 Upload Playwright HTML Report
         uses: actions/upload-artifact@v4
