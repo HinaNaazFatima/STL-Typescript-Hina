@@ -23,7 +23,7 @@ jobs:
         run: env
 
       - name: Run Smoke Tests with Debug Logging
-        run: npx playwright test -g "@smoke" --debug
+        run: npx playwright test -g "@smoke"
 
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
