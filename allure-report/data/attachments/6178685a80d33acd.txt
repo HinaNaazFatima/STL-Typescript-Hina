@@ -1,4 +1,0 @@
-Navigated to About Page
-Navigated back from About Page
-Navigated to Logout
-Successfully logged out

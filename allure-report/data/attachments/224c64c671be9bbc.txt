@@ -1,2 +1,0 @@
-[ 'Alice', 25 ]
-User Name: Alice, Age: 25
