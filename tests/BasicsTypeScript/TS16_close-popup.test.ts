@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('Close cookie banner on W3Schools', async ({ page }) => {
   await page.goto('https://www.w3schools.com/');
+  await page.pause();
 
   // Wait for the cookie consent banner to appear
   const consentBanner = page.locator('#accept-choices');

@@ -13,7 +13,7 @@ test("NavigateNHover",async({page})=>{
     //using xpath click on sign  
     await page.locator("//*[@id='account-menu']/li/a/span").click();
     //wait for 10sec
-    await page.waitForTimeout(30000);
+    await page.waitForTimeout(3000);
     //enter username
     await page.fill("//*[@id='header-login-emailaddress']","abc@gmail.com")
     

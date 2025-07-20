@@ -2,6 +2,7 @@ import { test } from '@playwright/test';
 
 test('Get row and column count from web table', async ({ page }) => {
   await page.goto('https://demoqa.com/webtables');
+   await page.pause();
 
   // Get all column headers
   const headerCells = page.locator('.rt-thead.-header .rt-th');

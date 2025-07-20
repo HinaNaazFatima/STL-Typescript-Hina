@@ -18,6 +18,7 @@ test('Scroll to last product on SauceDemo', async ({ page }) => {
 
   // Highlight the product [this is just for visual confirmation in the test]
   await lastProduct.evaluate(el => el.style.border = '2px solid red');
+  console.log('Scrolled to last product:', await lastProduct.textContent());
 
   // Check if visible
   await expect(lastProduct).toBeVisible();

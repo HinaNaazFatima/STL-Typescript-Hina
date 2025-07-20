@@ -24,6 +24,9 @@ test('Dropdown Select Test', async ({ page }) => {
 
     // Verify the selected option
     const selectedOption = await dropdown.inputValue();
+    console.log(selectedOption);
+    // This should log 'az' if the option is selected correctly
+    console.log(`Selected option: ${selectedOption}`);
     expect(selectedOption).toBe('az');
 
     // Select the option "Name (Z to A)"

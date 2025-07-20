@@ -3,6 +3,7 @@ import { test, expect } from '@playwright/test';
 
 // Runs once before all tests
 test.beforeAll(async () => {
+ 
   console.log('Before all tests');
 });
 
@@ -14,6 +15,7 @@ test.afterAll(async () => {
 // Runs before each test
 test.beforeEach(async ({ page }) => {
   console.log('Navigating to Wikipedia homepage...');
+   await page.pause();
   await page.goto('https://www.wikipedia.org/');
 });
 
@@ -24,7 +26,7 @@ test.afterEach(async () => {
 
 // Test 1: Verify page title
 test('Wikipedia homepage should have the correct title', async ({ page }) => {
-  await expect(page).toHaveTitle(/Wikipedia/);
+  await expect(page).toHaveTitle("Wikipedia");
 });
 
 // Test 2: Verify search input is visible

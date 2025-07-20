@@ -25,6 +25,7 @@ test.describe('Radio Button Tests', () => {
         const radioButtons = page.locator('input[type="radio"][name="radio1"]');
         const count = await radioButtons.count();
         for (let i = 0; i < count; i++) {
+            await page.pause();
             const radioButton = radioButtons.nth(i);
             await radioButton.click();
             await expect(radioButton).toBeChecked();
@@ -35,5 +36,7 @@ test.describe('Radio Button Tests', () => {
      });
     test.afterEach(async ({}, testInfo) => {
         console.log(`Test "${testInfo.title}" finished`);
+        //testInfo: This object contains information about the test itself, 
+        // such as its title, status, and more. You’re using testInfo.title to print the name of the test that just finished.
     });
  });
