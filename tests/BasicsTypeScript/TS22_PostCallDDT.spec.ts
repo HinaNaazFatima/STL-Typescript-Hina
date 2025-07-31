@@ -1,5 +1,5 @@
 import { test, expect, request } from '@playwright/test';
-import postDataArray from '../data/apiData.json';  // path to your JSON file
+import postDataArray from '../data/apidata.json';  // path to your JSON file
 
 test.describe('POST /posts API tests with multiple data sets', () => {
   postDataArray.forEach((postData, index) => {
