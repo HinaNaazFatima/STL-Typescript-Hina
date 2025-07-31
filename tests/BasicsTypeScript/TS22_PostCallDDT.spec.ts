@@ -7,7 +7,7 @@ test.describe('POST /posts API tests with multiple data sets', () => {
       const apiContext = await request.newContext();
 
       const response = await apiContext.post('https://jsonplaceholder.typicode.com/posts', {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json','x-api-key':'reqres-free-v1' },
         data: postData,
       });
 

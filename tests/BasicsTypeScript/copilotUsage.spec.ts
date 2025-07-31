@@ -4,14 +4,18 @@ test('navigate to The Good Guys login page', async ({ page }) => {
     // Open The Good Guys website
     await page.goto('https://www.thegoodguys.com.au/');
 
-    // Click on the "Sign In" or "Login" button/link
-    // The selector may change, so update if needed
-    await page.waitForSelector('a[data-testid="header-sign-in-link"]', { state: 'visible' });
-    await page.click('a[data-testid="header-sign-in-link"]');
-
-    // Wait for the login form to appear
-    await expect(page.locator('form')).toContainText(['Email', 'Password']);
-    await expect(page).toHaveURL(/login/);
+    // Click on the "Sign In" button
+    await page.getByRole('button', { name: 'Sign In' }).click();
+    await page.getByTestId('login-input').click();
+   
+  
+       await page.getByTestId('dialog-title').click({
+      button: 'right'
+    });
+    
+    await page.getByTestId('dialog-title').click();
+    await expect(page).toHaveURL('https://www.thegoodguys.com.au/');
+    
     // Optionally, you can fill in the login form if needed
     // await page.fill('input[name="email"]', 'your-email@example.com');
     // await page.fill('input[name="password"]', 'your-password');

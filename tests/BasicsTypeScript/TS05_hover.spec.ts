@@ -3,10 +3,10 @@ import { chromium,test } from "@playwright/test";
 test("NavigateNHover",async({page})=>{
     //navigate to webpage
     await page.goto("https://www.davidjones.com/");
-    await page.waitForTimeout(10000);
+    await page.waitForTimeout(3000);
     //hover over Designer
     await page.hover("//*[@id='header-nav']/div/ul/li[2]/a");
-    await page.waitForTimeout(10000);
+    await page.waitForTimeout(3000);
     //click on sale
     await page.click("//*[@id='header-nav']/div/ul/li[2]/div/div/ul/li[2]/a")
     //await page.waitForTimeout(30000);

@@ -1,5 +1,5 @@
 const {test, expect} = require('@playwright/test');
-test('@abc E2E test', async ({browser}) =>
+test('@abc E2E test',{tag: ['@smoke']}, async ({browser}) =>
       {
         //js file -login file
          const context = await browser.newContext();
