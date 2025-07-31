@@ -7,7 +7,8 @@ test('GET users page 2 from reqres with Accept header', async () => {
   // Create API context with default Accept header
   const apiRequestContext = await playwrightRequest.newContext({
     extraHTTPHeaders: {
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'x-api-key':'reqres-free-v1'
     }
   });
 

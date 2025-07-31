@@ -13,7 +13,7 @@ test('Create a new post via POST /posts', async () => {
 
   // POST request to jsonplaceholder
   const response = await apiContext.post('https://jsonplaceholder.typicode.com/posts', {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json','x-api-key':'reqres-free-v1' },
     data: newPost,
   });
 

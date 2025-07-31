@@ -21,13 +21,16 @@ export default defineConfig({
     video: 'retain-on-failure',
     trace: 'on',
     viewport: { width: 1280, height: 720 } 
+   
   },
   workers: 4, // Run tests in a single worker
-  // reporter: [['html', { outputFolder: 'reports' }]],
-  reporter: [
+   //reporter: [['html', { outputFolder: 'playwright-report',
+   // open: 'never' // optional behavior control
+ // }]],
+   reporter: [
     ['list'],  // Default CLI output
     ['allure-playwright'],  // Enable Allure reporting
-  ],
-
+    ['html', { outputFolder: 'playwright-report', open: 'never' }] // HTML report,
+   ],
   timeout: 90000,
   });
